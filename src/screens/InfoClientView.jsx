@@ -1,7 +1,7 @@
 import React from 'react'
 import { NavBarVertical } from '../components/NavBarVertical'
 
-export const InfoPlanView = () => {
+export const InfoClientView = () => {
     return (
         <>
         <NavBarVertical></NavBarVertical>

@@ -2,13 +2,42 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import planeImage from '../images/planeImage.jpg';
 import '../index.css';
-
+import axios from 'axios';
+import { data } from 'autoprefixer';
 export const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [login, setLogin] = useState("");
+  const [password, setPassword] = useState("");
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
+  const [num_id, setNumId] = useState("");
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+  
+
+  async function save(event) {
+    event.preventDefault();
+    const data = {
+      login: login,
+      password: password,
+      first_name: first_name,
+      last_name: last_name,
+      num_id: num_id
+    }
+    try {
+        const response = await axios.post("http://localhost:9091/api/v1/user/save", data,{ 
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true
+        })
+      alert("User Registration Successful");
+    } catch (err) {
+      console.log(data)
+      alert("error no se registra")
+      alert(err.message); // Es mejor usar err.message para obtener detalles del error
+    }
+  }
 
   return (
     <>
@@ -36,12 +65,46 @@ export const Register = () => {
               <h3 className='font-semibold py-4'>Correo</h3>
               <div className="flex items-center border-b-2 border-black">
                 <i className="fas fa-envelope text-black px-2"></i>
-                <input type="text" placeholder='Ingresa tu correo electrónico' className='w-full' />
+                <input type="text" placeholder='Ingresa tu correo electrónico' className='w-full' 
+                id="login"
+                value={login}
+                      onChange={(event) => {
+                        setLogin(event.target.value);
+                      }}
+                />
               </div>
-              <h3 className='font-semibold py-4'>Nombre</h3>
+              <h3 className='font-semibold py-4'>Primer nombre</h3>
               <div className="flex items-center border-b-2 border-black">
-                <i className="fas fa-envelope text-black px-2"></i>
-                <input type="text" placeholder='Ingresa tu nombre completo' className='w-full' />
+                <i className="fa-solid fa-person px-2"></i>
+                <input type="text" placeholder='Ingresa tu nombre completo' className='w-full' 
+                 id="first_name"
+                 value={first_name}
+                 onChange={(event) => {
+                   setFirstName(event.target.value);
+                 }}                
+                />
+              </div>
+              <h3 className='font-semibold py-4'>Apellido</h3>
+              <div className="flex items-center border-b-2 border-black">
+                <i className="fa-solid fa-person px-2"></i>
+                <input type="text" placeholder='Ingresa tu nombre completo' className='w-full' 
+                id="last_name"
+                value={last_name}
+                onChange={(event) => {
+                  setLastName(event.target.value);
+                }}
+                />
+              </div>
+              <h3 className='font-semibold py-4'>Cedula</h3>
+              <div className="flex items-center border-b-2 border-black">
+                <i className="fa-solid fa-id-card px-2"></i>
+                <input type="text" placeholder='Ingresa tu nombre completo' className='w-full'
+                 id="num_id"
+                 value={num_id}
+                 onChange={(event) => {
+                   setNumId(event.target.value);
+                 }}
+                />
               </div>
               <h3 className='font-semibold py-4'>Contraseña</h3>
               <div className="flex items-center border-b-2 border-black">
@@ -50,6 +113,11 @@ export const Register = () => {
                   type={showPassword ? "text" : "password"}
                   placeholder='Ingresa tu contraseña'
                   className='w-full'
+                  id="password"
+                  value={password}
+                  onChange={(event) => {
+                    setPassword(event.target.value);
+                  }}
                 />
                 <button onClick={togglePasswordVisibility} type="button" className="px-2">
                   <i className={`fa-solid ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
@@ -68,7 +136,7 @@ export const Register = () => {
                 </button>
               </div>
               <div className='flex justify-center py-20'>
-                <button type='submit' className='items-center bg-custom-orange w-96 h-12 rounded-3xl text-white font-semibold hover:bg-hover-orange'>Registrar</button>
+                <button type='submit' onClick={save} className='items-center bg-custom-orange w-96 h-12 rounded-3xl text-white font-semibold hover:bg-hover-orange'>Registrar</button>
               </div>
             </form>
           </div>
