@@ -9,6 +9,7 @@ export default {
       colors:{
         'custom-orange':'#f8872e',
         'hover-orange':'#fc580c',
+        'navbar-color':'#09738A'
       }
     },
   },
