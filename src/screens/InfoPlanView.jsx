@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavBar } from '../components/NavBar'
+import 'flowbite';
 
 export const InfoPlanView = () => {
     return (

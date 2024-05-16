@@ -1,11 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { NavBar } from '../components/NavBar';
+import 'flowbite';
+
 export const PlanView = () => {
     return (
         <>
             <NavBar></NavBar>
-            <section className="text-gray-400 bg-gray-900 body-font min-h-screen">
+            <section className="text-gray-400 bg-gray-500 body-font min-h-screen">
                 <div className="ml-64 p-4 mt-[56px]">
                     <div className="flex flex-wrap">
                         <div className="lg:w-1/4 md:w-1/2 p-4 w-full rounded-lg shadow-md border border-gray-800 hover:shadow-xl mx-10 mb-8">
