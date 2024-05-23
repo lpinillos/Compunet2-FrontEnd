@@ -7,7 +7,7 @@ export const NavBarVertical = () => {
     return (
         <>
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-            <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform" aria-label="Sidebar">
+            <aside id="logo-sidebar" className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform" aria-label="Sidebar">
                 <div className='bg-custom-orange flex items-center pb-5 pt-5 pl-5'>
                     <img src={planeLogo} className="h-8 me-3" alt="Logo de avión" />
                     <span className="text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Icesi viajes</span>
@@ -16,8 +16,8 @@ export const NavBarVertical = () => {
                     <ul className="space-y-2 font-medium">
                         <li>
                             <a href="#" className="flex items-center p-2 text-white hover:bg-custom-orange hover:text-black justify-left">
-                                <i class="fa-solid fa-location-dot"></i>
-                                <span class="ms-3">Catalogo de Destinos</span>
+                                <i className="fa-solid fa-location-dot"></i>
+                                <span className="ms-3">Catalogo de Destinos</span>
                             </a>
                         </li>
                         <li>
@@ -54,36 +54,36 @@ export const NavBarVertical = () => {
                         </li>
                         <li className='bg-transparent rounded-lg'>
                             <a href="#" className="flex items-center p-2 text-white hover:bg-custom-orange hover:text-black justify-left">
-                                <i class="fa-solid fa-user-secret"></i>
-                                <span class="flex-1 ms-3 whitespace-nowrap">Gestión de Agentes</span>
+                                <i className="fa-solid fa-user-secret"></i>
+                                <span className="flex-1 ms-3 whitespace-nowrap">Gestión de Agentes</span>
                             </a>
                         </li>
                         <li className='bg-transparent rounded-lg mb-4'>
                             <a href="#" className="flex items-center p-2 text-white hover:bg-custom-orange hover:text-black justify-left">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                                <span class="flex-1 ms-3 whitespace-nowrap">Reservas y ventas</span>
+                                <i className="fa-solid fa-cart-shopping"></i>
+                                <span className="flex-1 ms-3 whitespace-nowrap">Reservas y ventas</span>
                             </a>
                         </li>
                     </ul>
-                    <div class="flex items-center ms-3">
+                    <div className="flex items-center ms-3">
                         <div>
-                            <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
-                                <span class="sr-only">Open user menu</span>
-                                <img class="w-8 h-8 rounded-full" src={profilePicture} alt="user photo" />
+                            <button type="button" className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="dropdown-user">
+                                <span className="sr-only">Open user menu</span>
+                                <img className="w-8 h-8 rounded-full" src={profilePicture} alt="user photo" />
                             </button>
                         </div>
-                        <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
-                            <div class="px-4 py-3" role="none">
-                                <p class="text-sm text-gray-900 dark:text-white" role="none">
+                        <div className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
+                            <div className="px-4 py-3" role="none">
+                                <p className="text-sm text-gray-900 dark:text-white" role="none">
                                     Luis Pinillos
                                 </p>
-                                <p class="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
+                                <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300" role="none">
                                     prueba@gmail.com
                                 </p>
                             </div>
-                            <ul class="py-1" role="none">
+                            <ul className="py-1" role="none">
                                 <li>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</a>
+                                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</a>
                                 </li>
                             </ul>
                         </div>
