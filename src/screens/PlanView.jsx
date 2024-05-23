@@ -1,21 +1,35 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
-import { NavBar } from '../components/NavBar';
 import { NavBarVertical } from '../components/NavBarVertical';
 import 'flowbite';
 import axios from 'axios';
 export const PlanView = () => {
 
     const [plans, setPlans] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const handleInputChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        fetchPlans(searchTerm);
+    };    
 
     useEffect(() => {
-        axios.get('http://localhost:9091/api/v1/plans/getPlan').then(response => {
-            console.log("MINA ES LO MEJOR", response.data);
+        fetchPlans();
+    }, []);
+    
+    const fetchPlans = (word = '') => {
+        axios.get(`http://localhost:9091/api/v1/plans/getPlan`, {
+            params: { word }
+        }).then(response => {
             setPlans(response.data);
         }).catch(error => {
             console.error("Existe un error al obtener los planes", error);
         });
-    }, []);
+    };    
 
 
     return (
@@ -23,7 +37,26 @@ export const PlanView = () => {
             <NavBarVertical></NavBarVertical>
             <div className="ml-64 p-4">
                 <div className="flex justify-end w-full">
-                    <Link to='/CreatePlan'><button className='bg-custom-orange hover:bg-hover-orange rounded-lg w-32 h-11 font-semibold text-white mt-5 mr-28'>Crear Plan</button></Link>
+                    <form className="form-inline" onSubmit={handleSubmit}>
+                        <div className="form-group mb-2"></div>
+                        <div className="form-group mx-sm-3 mb-2">
+                            <input
+                                type="text"
+                                name="word"
+                                className="form-control"
+                                id="word"
+                                value={searchTerm}
+                                onChange={handleInputChange}
+                                placeholder="Digite el valor a buscar..."
+                                required
+                            />
+                        </div>
+                        <input type="submit" className="btn btn-primary mb-2" value="Buscar"></input>
+                    </form>
+                    &nbsp;&nbsp;&nbsp;
+                    <Link to='/CreatePlan'>
+                        <button className='bg-custom-orange hover:bg-hover-orange rounded-lg w-32 h-11 font-semibold text-white mt-5 mr-28'>Crear Plan</button>
+                    </Link>
                 </div>
                 <div className="flex flex-wrap">
                     {Array.isArray(plans) ? (
@@ -46,6 +79,6 @@ export const PlanView = () => {
                 </div>
             </div>
         </>
-    );
+    );    
 
 }
