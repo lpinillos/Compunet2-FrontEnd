@@ -1,42 +1,48 @@
-import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link} from 'react-router-dom';
 import { NavBarVertical } from '../components/NavBarVertical';
 
 export const InfoPlanView = () => {
-    
     const navigate = useNavigate();
     const location = useLocation();
     let planObj = location.state.planObj;
-
-    console.log(planObj);
 
     if (!planObj) {
         return <p>Cargando...</p>;
     }
 
+    const formatDate = (dateString) => {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+
     return (
         <>
             <NavBarVertical />
-            <section className="text-gray-400 bg-white body-font min-h-screen">
+            <section className="text-gray-700 bg-white body-font min-h-screen">
                 <div className="ml-64 p-4">
-                    <div className="lg:w-4/5 mt-28 ml-28 flex flex-wrap shadow-md border border-gray-800 border-x-2 border-y-2 hover:shadow-xl rounded-lg">
-                        <img alt="ecommerce" className="lg:w-1/2 w-full object-cover object-center rounded" src={planObj.image} />
-                        <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-                            <h2 className="text-sm title-font text-black tracking-widest font-semibold">{planObj.code}</h2>
-                            <h1 className="text-black text-3xl title-font font-medium mb-1">{planObj.name}</h1>
-                            <p className="leading-relaxed mr-2 mb-1">{planObj.description}</p>
-                            <p className="leading-relaxedmr-2 mb-1">{planObj.num_people}</p>
-                            <p className="leading-relaxed mr-2 mb-1">{planObj.start_Date}</p>
-                            <p className="leading-relaxed mr-2 mb-1">{planObj.end_Date}</p>
-                            <p className="leading-relaxed mr-2 mb-10">{planObj.state}</p>
-                            <div className="flex">
+                    <div className="lg:w-4/5 mt-28 mx-auto flex flex-wrap shadow-md border border-gray-300 hover:shadow-lg rounded-lg overflow-hidden">
+                        <img alt="ecommerce" className="lg:w-1/2 w-full object-cover object-center" src={planObj.image} />
+                        <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0 p-4">
+                            <h2 className="text-sm title-font text-gray-500 tracking-widest font-semibold">{planObj.code}</h2>
+                            <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{planObj.name}</h1>
+                            <p className="leading-relaxed mb-4">{planObj.description}</p>
+                            <div className="flex flex-col mb-4">
+                                <p className="text-gray-700 mb-2"><span className="font-semibold">Número de personas:</span> {planObj.num_people}</p>
+                                <p className="text-gray-700 mb-2"><span className="font-semibold">Fecha de inicio:</span> {formatDate(planObj.start_Date)}</p>
+                                <p className="text-gray-700 mb-2"><span className="font-semibold">Fecha de finalización:</span> {formatDate(planObj.end_Date)}</p>
+                                <p className="text-gray-700"><span className="font-semibold">Estado:</span> {planObj.state}</p>
+                            </div>
+                            <div className="flex items-center">
                                 <span className="title-font font-medium text-2xl text-gray-900">${planObj.price}</span>
-                                <button className="flex ml-auto text-white bg-custom-orange border-0 py-2 px-6 focus:outline-none hover:bg-hover-orange rounded" onClick={() => navigate('/EditInfoPlanView', { state: { planObj: planObj } })}>Editar Plan</button>
-                                <button className="rounded-full w-10 h-10 bg-gray-200 hover:bg-custom-orange p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4 mr-4">
-                                    <svg fill="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-5 h-5" viewBox="0 0 24 24">
-                                        <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
-                                    </svg>
+                                <button 
+                                    className="flex ml-auto font-semibold text-white bg-custom-orange border-0 py-2 px-6 focus:outline-none hover:bg-hover-orange rounded transition duration-300" 
+                                    onClick={() => navigate('/EditInfoPlanView', { state: { planObj: planObj } })}
+                                >
+                                    Editar Plan
                                 </button>
+                                <Link to='/PlanView' className='rounded w-20 h-10 bg-red-700 hover:bg-red-500 hover:text-white p-0 border-0 inline-flex items-center justify-center text-white font-semibold ml-4 transition duration-300'>
+                                    Regresar
+                                </Link>
                             </div>
                         </div>
                     </div>

@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { NavBarVertical } from '../components/NavBarVertical';
-import 'flowbite';
 import axios from 'axios';
 
 export const PlanView = () => {
-    
     const navigate = useNavigate();
     const [plans, setPlans] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [titulo, setTitulo] = useState("");
+    const [filterData, setFilterData] = useState("");
+    const [busqueda, setBusqueda] = useState("");
 
     const handleInputChange = (event) => {
         setSearchTerm(event.target.value);
@@ -33,50 +34,65 @@ export const PlanView = () => {
         });
     };
 
+    const truncateDescription = (description, maxLength) => {
+        if (description.length <= maxLength) return description;
+        return description.substring(0, maxLength) + '...';
+    };
+
+    useEffect(() => {
+        const filtered = plans.filter((item) => {
+            const titleMatch = item.name.toLowerCase().includes(busqueda.toLowerCase());
+            return titleMatch;
+        });
+
+        setFilterData(filtered);
+    }, [busqueda, plans]);
+
     return (
         <>
-            <NavBarVertical></NavBarVertical>
+            <NavBarVertical />
             <div className="ml-64 p-4">
-                <div className="flex justify-end w-full">
-                    <form className="form-inline" onSubmit={handleSubmit}>
-                        <div className="form-group mb-2"></div>
-                        <div className="form-group mx-sm-3 mb-2">
+                <div className="flex justify-center items-center w-full">
+                    <form className="form-inline w-full" onSubmit={handleSubmit}>
+                        <div className="form-group mx-sm-3 mb-2 w-full">
                             <input
                                 type="text"
                                 name="word"
-                                className="form-control border border-gray-800"
+                                className="form-control border border-gray-300 w-full rounded-md py-2 px-4"
                                 id="word"
-                                value={searchTerm}
-                                onChange={handleInputChange}
+                                value={busqueda} onChange={e => setBusqueda(e.target.value)}
                                 placeholder="Digite el valor a buscar..."
                                 required
                             />
                         </div>
                     </form>
-                    &nbsp;&nbsp;&nbsp;
                     <Link to='/CreatePlan'>
-                        <button className='bg-custom-orange hover:bg-hover-orange rounded-lg w-32 h-11 font-semibold text-white mt-5 mr-28'>Crear Plan</button>
+                        <button className='bg-custom-orange hover:bg-hover-orange rounded-lg w-32 h-11 font-semibold text-white mr-5 ml-5 mb-2'>Crear Plan</button>
                     </Link>
                 </div>
-                <div className="flex flex-wrap">
-                    {Array.isArray(plans) ? (
-                        plans.map(plan => (
-                            <div key={plan.id_plan} className="lg:w-1/4 md:w-1/2 p-4 w-full rounded-lg shadow-md border border-gray-800 border-x-2 border-y-2 hover:shadow-xl mx-10 mb-8">
-                                <div className="block relative h-48 rounded">
-                                    <img alt={plan.name} className="object-cover object-center w-full h-full block" src={plan.image} />
-                                </div>
-                                <div className="mt-4">
-                                    <h3 className="text-black font-semibold text-xs tracking-widest title-font mb-1">Plan de Viaje</h3>
-                                    <h2 className='text-black text-xs tracking-widest title-font mb-1'> - {plan.name}</h2>
-                                    <h2 className="text-black title-font text-lg font-medium hover:text-hover-orange" onClick={() => navigate('/InfoPlanView', { state: {planObj: plan}})}>
-                                        {plan.description}
-                                    </h2>
-                                    <p className="mt-1">${plan.price}</p>
+                <div className="flex flex-wrap justify-center mt-5">
+                    {Array.isArray(plans) && plans.length > 0 ? (
+                        filterData.map(plan => (
+                            <div key={plan.id_plan} className="lg:w-1/4 md:w-1/2 p-4 w-full">
+                                <div
+                                    className="rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 cursor-pointer"
+                                    style={{ height: '380px' }}
+                                    onClick={() => navigate('/InfoPlanView', { state: { planObj: plan } })}
+                                >
+                                    <div className="relative h-48 w-full">
+                                        <img alt={plan.name} className="object-cover object-center w-full h-full" src={plan.image} />
+                                    </div>
+                                    <div className="p-4 bg-white">
+                                        <h3 className="text-gray-600 font-semibold text-sm mb-1">Plan de Viaje</h3>
+                                        <h2 className="text-gray-900 title-font text-lg font-medium mb-2">{plan.name}</h2>
+                                        <p className="text-gray-600 text-sm mb-4">{truncateDescription(plan.description, 100)}</p>
+                                        <p className="text-gray-800 text-lg font-semibold">${plan.price}</p>
+                                    </div>
                                 </div>
                             </div>
                         ))
                     ) : (
-                        <p>No hay planes disponibles</p>
+                        <p className="text-center text-gray-600 mt-8">No hay planes disponibles</p>
                     )}
                 </div>
             </div>

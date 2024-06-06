@@ -1,8 +1,7 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import './index.css';
 import { LoginPage } from './screens/LoginPage';
 import { Register } from './screens/Register';
-import { HomePage } from './screens/HomePage';
 import { PlanView } from './screens/PlanView';
 import { InfoPlanView } from './screens/InfoPlanView';
 import { EditInfoPlanView } from './screens/EditInfoPlanView';
@@ -16,7 +15,6 @@ import { EditInfoViewerView } from './screens/EditInfoViewerView';
 import { AgentView } from './screens/AgentView';
 import { InfoAgentView } from './screens/InfoAgentView';
 import { EditInfoAgentView } from './screens/EditInfoAgentView';
-import React from 'react'
 import { Cloudinary } from '@cloudinary/url-gen';
 import { auto } from '@cloudinary/url-gen/actions/resize';
 import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
@@ -36,7 +34,6 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/Register" element={<Register />} />
-        <Route path='/HomePage' element={<HomePage />} />
         <Route path='/PlanView' element={<PlanView />} />
         <Route path="/InfoPlanView" element={<InfoPlanView />} />
         <Route path="/EditInfoPlanView" element={<EditInfoPlanView />} />
