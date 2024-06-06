@@ -54,19 +54,19 @@ export const NavBarVertical = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link to='/GestionClientes' className='font-semibold text-lg text-white flex items-center hover:bg-hover-orange py-3 pl-6'>
+                        <Link to='/ClientView' className='font-semibold text-lg text-white flex items-center hover:bg-hover-orange py-3 pl-6'>
                             <FaUserFriends className='mr-3' />
                             Gestión de Clientes
                         </Link>
                     </li>
                     <li>
-                        <Link to='/GestionViewers' className='font-semibold text-lg text-white flex items-center hover:bg-hover-orange py-3 pl-6'>
+                        <Link to='/ViewerView' className='font-semibold text-lg text-white flex items-center hover:bg-hover-orange py-3 pl-6'>
                             <FaUsers className='mr-3' />
                             Gestión de Viewers
                         </Link>
                     </li>
                     <li>
-                        <Link to='/GestionAgentes' className='font-semibold text-lg text-white flex items-center hover:bg-hover-orange py-3 pl-6'>
+                        <Link to='/AgentView' className='font-semibold text-lg text-white flex items-center hover:bg-hover-orange py-3 pl-6'>
                             <FaUserTie className='mr-3' />
                             Gestión de Agentes
                         </Link>
