@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { NavBarVertical } from '../components/NavBarVertical';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // Importa useNavigate en lugar de Navigate
 import uploadImageCloudinary from '../service/LoadImage';
 import createPlan from '../service/createPlan';
-import getUserByEmail from '../service/getUser';
+import axios from 'axios';
 
 export const CreatePlanView = () => {
     const [namePlan, setNamePlan] = useState("");
@@ -17,6 +17,8 @@ export const CreatePlanView = () => {
     const [imagePlan, setImagePlan] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [code, setCode] = useState("");
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -36,18 +38,25 @@ export const CreatePlanView = () => {
     };
 
     const userId = localStorage.getItem('email');
-    console.log("ESTE ES EL ID: " + getUserByEmail(userId).id_user);
 
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await axios.get(`http://localhost:9091/api/v1/user/getUsuario/${userId}`);
+                setUser(response.data);
+            } catch (error) {
+                console.error("Error fetching user:", error);
+            }
+        };
 
-    const fetchPlans = (word = '') => {
-        axios.get('http://localhost:9091/api/v1/user/getUsuario/', {
-            params: { word }
-        }).then(response => {
-            setPlans(response.data);
-        }).catch(error => {
-            console.error("Existe un error al obtener los planes", error);
-        });
-    };
+        fetchUser();
+    }, [userId]);
+
+    useEffect(() => {
+        if (user) {
+            console.log(user.id_user);
+        }
+    }, [user]);
 
     const generateRandomId = () => Math.floor(Math.random() * 100000000);
 
@@ -68,16 +77,15 @@ export const CreatePlanView = () => {
             end_Date: endDatePlan,
             price: parseFloat(pricePlan),
             state: statePlan,
-            user: userId,
+            user: user ? user.id_user : null, // Usa el id_user del estado user
             image: imageUrl
         };
         try {
             const response = await createPlan(plan);
             console.log("Plan creado con éxito:", response);
-            Navigate('/PlanView')
+            navigate('/PlanView'); // Usa navigate en lugar de Navigate
         } catch (error) {
             console.error("Error al crear el plan:", error);
-            
         }
     };
 
@@ -187,7 +195,6 @@ export const CreatePlanView = () => {
                                     Crear Plan
                                 </button>
                             </div>
-
                         </div>
                     </div>
                 </div>

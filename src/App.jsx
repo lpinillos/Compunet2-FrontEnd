@@ -15,19 +15,11 @@ import { EditInfoViewerView } from './screens/EditInfoViewerView';
 import { AgentView } from './screens/AgentView';
 import { InfoAgentView } from './screens/InfoAgentView';
 import { EditInfoAgentView } from './screens/EditInfoAgentView';
-import { Cloudinary } from '@cloudinary/url-gen';
-import { auto } from '@cloudinary/url-gen/actions/resize';
-import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
-import { AdvancedImage } from '@cloudinary/react';
+import ViewDestino from './screens/ViewDestino';
+import CatalogoDestinoView from './screens/CatalogoDestinoView';
+
 function App() {
 
-  const cld = new Cloudinary({ cloud: { cloudName: 'dltmntsa3' } });
-
-  // Use this sample image or upload your own via the Media Explorer
-  const img = cld.image('cld-sample-5')
-    .format('auto') // Optimize delivery by resizing and applying auto-format and auto-quality
-    .quality('auto')
-    .resize(auto().gravity(autoGravity()).width(500).height(500)); // Transform the image: auto-crop to square aspect_ratio
 
   return (
     <Router>
@@ -47,6 +39,8 @@ function App() {
         <Route path='/AgentView' element={<AgentView />} />
         <Route path='/InfoAgentView' element={<InfoAgentView />} />
         <Route path='/EditInfoAgentView' element={<EditInfoAgentView />} />
+        <Route path='/DestinoView' element={<ViewDestino/>}/>
+        <Route path='/CatalogoDestino' element={<CatalogoDestinoView/>}/>
       </Routes>
     </Router>
   );

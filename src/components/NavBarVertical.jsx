@@ -1,7 +1,32 @@
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { FaMapMarkedAlt, FaPlane, FaUserFriends, FaUsers, FaUserTie, FaBook, FaSignOutAlt } from 'react-icons/fa';
+import axios from 'axios';
 
 export const NavBarVertical = () => {
+    const [user, setUser] = useState("");
+
+    const userId = localStorage.getItem('email');
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const response = await axios.get(`http://localhost:9091/api/v1/user/getUsuario/${userId}`);
+                setUser(response.data);
+            } catch (error) {
+                console.error("Error fetching user:", error);
+            }
+        };
+
+        fetchUser();
+    }, [userId]);
+
+
+    useEffect(() => {
+        if (user) {
+            console.log(user.first_name);
+        }
+    }, [user]);
 
     return (
         <div className='fixed w-64 h-screen transition-transform bg-custom-orange flex flex-col left-0'>
@@ -11,13 +36,13 @@ export const NavBarVertical = () => {
                 </h1>
                 <ul className='flex flex-col mt-4 w-64'>
                     <li>
-                        <Link to='/Destinos' className='font-semibold text-lg text-white flex items-center hover:bg-hover-orange py-3 pl-6'>
+                        <Link to='/CatalogoDestino' className='font-semibold text-lg text-white flex items-center hover:bg-hover-orange py-3 pl-6'>
                             <FaMapMarkedAlt className='mr-3' />
                             Catálogo de Destinos
                         </Link>
                     </li>
                     <li>
-                        <Link to='/Destinos' className='font-semibold text-lg text-white flex items-center hover:bg-hover-orange py-3 pl-6'>
+                        <Link to='/DestinoView' className='font-semibold text-lg text-white flex items-center hover:bg-hover-orange py-3 pl-6'>
                             <FaPlane className='mr-3' />
                             Destinos
                         </Link>
@@ -54,6 +79,7 @@ export const NavBarVertical = () => {
                     </li>
                 </ul>
             </div>
+            <div className='text-white font-semibold flex justify-center mb-2 text-2xl'>{user.first_name} {user.last_name}</div>
             <div className='flex flex-col items-start mb-4 w-full px-6'>
                 <button className='bg-red-600 text-white py-2 w-full flex items-center justify-center rounded hover:bg-red-700 transition'>
                     <FaSignOutAlt className='mr-3' />

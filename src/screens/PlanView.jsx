@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { NavBarVertical } from '../components/NavBarVertical';
 import axios from 'axios';
@@ -7,7 +7,6 @@ export const PlanView = () => {
     const navigate = useNavigate();
     const [plans, setPlans] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [titulo, setTitulo] = useState("");
     const [filterData, setFilterData] = useState("");
     const [busqueda, setBusqueda] = useState("");
 
