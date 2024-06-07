@@ -65,7 +65,7 @@ const ViewDestino = () => {
                             />
                         </div>
                     </form>
-                    <Link to='/CreateDestination'>
+                    <Link to='/CreateDestino'>
                         <button className='bg-custom-orange hover:bg-hover-orange rounded-lg w-32 h-11 font-semibold text-white mr-5 ml-5 mb-2'>Crear Destino</button>
                     </Link>
                 </div>
