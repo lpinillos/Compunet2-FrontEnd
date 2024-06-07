@@ -125,7 +125,7 @@ export const CreatePlanView = () => {
                 };
                 const response2 = await createPlanDetail(detailData);
                 console.log("Detalle de plan creado:", response2);
-
+                
                 // Crear relación entre el plan y el detalle del plan
                 const planAndDetailId = generateRandomId();
                 const planAndDetail = {
