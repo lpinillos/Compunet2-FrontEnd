@@ -14,6 +14,7 @@ import { ViewerView } from './screens/ViewerView';
 import { InfoViewerView } from './screens/InfoViewerView';
 import { EditInfoViewerView } from './screens/EditInfoViewerView';
 import { AgentView } from './screens/AgentView';
+import { CreateAgents }  from './screens/CreateAgents';
 import { InfoAgentView } from './screens/InfoAgentView';
 import { EditInfoAgentView } from './screens/EditInfoAgentView';
 import { CreateClient } from './screens/CreateClient';
@@ -32,6 +33,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/Register" element={<Register />} />
+        <Route path="/CreateAgent" element={<CreateAgents />} />
         <Route path="/CreateViewer" element={<CreateViewer />} />
         <Route path="/CreateClient" element={<CreateClient />} />
         <Route path='/PlanView' element={<PlanView />} />
