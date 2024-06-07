@@ -1,23 +1,42 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { NavBarVertical } from '../components/NavBarVertical';
-import axios from 'axios';
+import updateDestination from '../service/updateDestino';
 
 export const EditInfoDestinationView = () => {
 
     const navigate = useNavigate();
     const location = useLocation();
     let destinationObj = location.state.destinationObj;
-
-    console.log(destinationObj)
+    
+    const [destination, setDestination] = useState(destinationObj || {});
+    const [code, setCode] = useState(destination.code);
+    const [name, setName] = useState(destination.name);
+    const [description, setDescription] = useState(destination.description);
+    const [state, setState] = useState(destination.state);
+    const [image, setImage] = useState(destination.image);
 
     if (!destinationObj) {
         return <p>Cargando...</p>;
     }
 
-    const formatDate = (dateString) => {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
+    const handleForm = async (e) => {
+        e.preventDefault();
+        const updatedDestination = {
+            id_destination: destination.id_destination,  // Assuming there is an ID
+            code: code,
+            name: name,
+            description : description,
+            state : state,
+            image : destination.image
+        };
+        try {
+            const response = await updateDestination(updatedDestination);
+            console.log("Destino actualizado con éxito:", response);
+            navigate('/InfoDestinationView', { state: { destinationObj: updatedDestination } });
+        } catch (error) {
+            console.error("Error al actualizar el destino:", error);
+        }
     };
 
     return (
@@ -25,11 +44,11 @@ export const EditInfoDestinationView = () => {
             <NavBarVertical />
             <section className="bg-gray-100 min-h-screen flex items-center justify-center ml-64">
                 <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow-md mt-20">
-                    <form className="flex flex-col lg:flex-row items-center">
+                    <form onSubmit={handleForm} className="flex flex-col lg:flex-row items-center">
                         <img
                             alt="Plan"
                             className="lg:w-1/3 w-full object-cover object-center rounded-lg shadow-md"
-                            src={destinationObj.image || 'https://via.placeholder.com/300'}
+                            src={image || 'https://via.placeholder.com/300'}
                         />
                         <div className="lg:w-2/3 w-full lg:pl-10 mt-6 lg:mt-0">
                             <div className="mb-4">
@@ -37,7 +56,8 @@ export const EditInfoDestinationView = () => {
                                 <input
                                     type="text"
                                     className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
-                                    value={destinationObj.code}
+                                    value={code}
+                                onChange={(e) => setCode(e.target.value)}
                                 />
                             </div>
                             <div className="mb-4">
@@ -45,7 +65,8 @@ export const EditInfoDestinationView = () => {
                                 <input
                                     type="text"
                                     className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
-                                    value={destinationObj.name}
+                                    value={name}
+                                onChange={(e) => setName(e.target.value)}
                                 />
                             </div>
                             <div className="mb-4">
@@ -53,7 +74,8 @@ export const EditInfoDestinationView = () => {
                                 <textarea
                                     type="text"
                                     className="text-black title-font font-medium mb-1 w-full h-36 border border-gray-300 rounded-md p-2 resize-none overflow-y-auto"
-                                    value={destinationObj.description}
+                                    value={description}
+                                onChange={(e) => setDescription(e.target.value)}
                                 />
                             </div>
                             <div className="mb-4">
@@ -61,7 +83,8 @@ export const EditInfoDestinationView = () => {
                                 <input
                                     type="text"
                                     className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
-                                    value={destinationObj.state}
+                                    value={state}
+                                    onChange={(e) => setState(e.target.value)}
                                 />
                             </div>
                             <div className="flex space-x-4 mt-4">

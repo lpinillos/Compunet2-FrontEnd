@@ -1,25 +1,51 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { NavBarVertical } from '../components/NavBarVertical';
+import updatedViewe from '../service/updateViewer';
 
 export const EditInfoViewerView = () => {
-
     const navigate = useNavigate();
     const location = useLocation();
     let viewerObj = location.state.viewerObj;
 
-    console.log(viewerObj)
+    const [role, setRole] = useState(viewerObj.role);
+    const [firstName, setFirstName] = useState(viewerObj.first_name);
+    const [lastName, setLastName] = useState(viewerObj.last_name);
+    const [login, setLogin] = useState(viewerObj.login);
+    const [numId, setNumId] = useState(viewerObj.num_id);
+    const [state, setState] = useState(viewerObj.state);
 
     if (!viewerObj) {
         return <p>Cargando...</p>;
     }
+
+    const handleForm = async (e) => {
+        e.preventDefault();
+        const updatedViewer = {
+            id_user: viewerObj.id_user,
+            login: login,
+            password: viewerObj.password,
+            first_name: firstName,
+            last_name: lastName,
+            role: role,
+            num_id: numId,
+            state: state,
+        };
+        try {
+            const response = await updatedViewe(updatedViewer);
+            console.log("Cliente actualizado con éxito:", response);
+            navigate('/InfoViewerView', { state: { viewerObj: updatedViewer } });
+        } catch (error) {
+            console.error("Error al actualizar el cliente:", error);
+        }
+    };
 
     return (
         <>
             <NavBarVertical />
             <section className="bg-gray-100 min-h-screen flex items-center justify-center ml-64">
                 <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow-md mt-20">
-                    <form className="flex flex-col lg:flex-row items-center">
+                    <form onSubmit={handleForm} className="flex flex-col lg:flex-row items-center">
                         <img
                             alt="Plan"
                             className="lg:w-1/3 w-full object-cover object-center rounded-lg shadow-md"
@@ -31,7 +57,8 @@ export const EditInfoViewerView = () => {
                                 <input
                                     type="text"
                                     className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
-                                    value={viewerObj.role}
+                                    value={role}
+                                onChange={(e) => setRole(e.target.value)}
                                 />
                             </div>
                             <div className="mb-4">
@@ -39,7 +66,8 @@ export const EditInfoViewerView = () => {
                                 <input
                                     type="text"
                                     className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
-                                    value={viewerObj.first_name}
+                                    value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
                                 />
                             </div>
                             <div className="mb-4">
@@ -47,7 +75,8 @@ export const EditInfoViewerView = () => {
                                 <input
                                     type="text"
                                     className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
-                                    value={viewerObj.last_name}
+                                    value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
                                 />
                             </div>
                             <div className="mb-4">
@@ -55,7 +84,8 @@ export const EditInfoViewerView = () => {
                                 <input
                                     type="text"
                                     className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
-                                    value={viewerObj.login}
+                                    value={login}
+                                onChange={(e) => setLogin(e.target.value)}
                                 />
                             </div>
                             <div className="mb-4">
@@ -63,7 +93,8 @@ export const EditInfoViewerView = () => {
                                 <input
                                     type="text"
                                     className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
-                                    value={viewerObj.num_id}
+                                    value={numId}
+                                    onChange={(e) => setNumId(e.target.value)}
                                 />
                             </div>
                             <div className="mb-4">
@@ -71,7 +102,8 @@ export const EditInfoViewerView = () => {
                                 <input
                                     type="text"
                                     className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
-                                    value={viewerObj.state}
+                                    value={state}
+                                    onChange={(e) => setState(e.target.value)}
                                 />
                             </div>
                             <div className="flex space-x-4 mt-4">

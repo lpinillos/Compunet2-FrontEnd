@@ -1,25 +1,51 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { NavBarVertical } from '../components/NavBarVertical';
+import updateAgent from '../service/updateViewer';  // Asegúrate de tener este servicio implementado
 
 export const EditInfoAgentView = () => {
-    
     const navigate = useNavigate();
     const location = useLocation();
     let agentObj = location.state.agentObj;
 
-    console.log(agentObj)
+    const [role, setRole] = useState(agentObj.role);
+    const [firstName, setFirstName] = useState(agentObj.first_name);
+    const [lastName, setLastName] = useState(agentObj.last_name);
+    const [login, setLogin] = useState(agentObj.login);
+    const [numId, setNumId] = useState(agentObj.num_id);
+    const [state, setState] = useState(agentObj.state);
 
     if (!agentObj) {
         return <p>Cargando...</p>;
     }
+
+    const handleForm = async (e) => {
+        e.preventDefault();
+        const updatedAgent = {
+            id_user: agentObj.id_user,
+            login: login,
+            password: agentObj.password,
+            first_name: firstName,
+            last_name: lastName,
+            role: role,
+            num_id: numId,
+            state: state,
+        };
+        try {
+            const response = await updateAgent(updatedAgent);
+            console.log("Agente actualizado con éxito:", response);
+            navigate('/InfoAgentView', { state: { agentObj: updatedAgent } });
+        } catch (error) {
+            console.error("Error al actualizar el agente:", error);
+        }
+    };
 
     return (
         <>
             <NavBarVertical />
             <section className="bg-gray-100 min-h-screen flex items-center justify-center ml-64">
                 <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow-md mt-20">
-                    <form className="flex flex-col lg:flex-row items-center">
+                    <form onSubmit={handleForm} className="flex flex-col lg:flex-row items-center">
                         <img 
                             alt="Plan" 
                             className="lg:w-1/3 w-full object-cover object-center rounded-lg shadow-md" 
@@ -31,7 +57,8 @@ export const EditInfoAgentView = () => {
                                 <input
                                     type="text"
                                     className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
-                                    value={agentObj.role}
+                                    value={role}
+                                onChange={(e) => setRole(e.target.value)}
                                 />
                             </div>
                             <div className="mb-4">
@@ -39,7 +66,8 @@ export const EditInfoAgentView = () => {
                                 <input
                                     type="text"
                                     className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
-                                    value={agentObj.first_name}
+                                    value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
                                 />
                             </div>
                             <div className="mb-4">
@@ -47,7 +75,17 @@ export const EditInfoAgentView = () => {
                                 <input
                                     type="text"
                                     className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
-                                    value={agentObj.last_name}
+                                    value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="text-gray-700 font-semibold">Correo:</label>
+                                <input
+                                    type="text"
+                                    className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
+                                    value={login}
+                                onChange={(e) => setLogin(e.target.value)}
                                 />
                             </div>
                             <div className="mb-4">
@@ -55,7 +93,8 @@ export const EditInfoAgentView = () => {
                                 <input
                                     type="text"
                                     className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
-                                    value={agentObj.num_id}
+                                    value={numId}
+                                    onChange={(e) => setNumId(e.target.value)}
                                 />
                             </div>
                             <div className="mb-4">
@@ -63,7 +102,8 @@ export const EditInfoAgentView = () => {
                                 <input
                                     type="text"
                                     className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
-                                    value={agentObj.state}
+                                    value={state}
+                                    onChange={(e) => setState(e.target.value)}
                                 />
                             </div>
                             <div className="flex space-x-4 mt-4">
