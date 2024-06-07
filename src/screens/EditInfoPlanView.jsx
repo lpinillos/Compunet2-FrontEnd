@@ -22,7 +22,7 @@ export const EditInfoPlanView = () => {
     return (
         <>
             <NavBarVertical></NavBarVertical>
-            <section className="text-gray-400 bg-white body-font min-h-screen">
+            <section className="text-gray-700 bg-white body-font min-h-screen">
                 <div className="ml-64 p-4">
                     <div className="lg:w-4/5 mt-28 ml-28 flex flex-wrap shadow-md border border-gray-800 border-x-2 border-y-2 hover:shadow-xl rounded-lg">
                         <img alt="ecommerce" className="lg:w-1/2 w-full object-cover object-center rounded" src={planObj.image} />
