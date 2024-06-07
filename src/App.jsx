@@ -54,7 +54,7 @@ function App() {
         <Route path='/InfoDestinationView' element={<InfoDestinationView/>}/>
         <Route path='/EditInfoDestinationView' element={<EditInfoDestinationView/>}/>
         <Route path='/CatalogoDestino' element={<CatalogoDestinoView/>}/>
-        <Route path='/ReportView' element={<ReportsView/>}/>
+        <Route path='/ReportsView' element={<ReportsView/>}/>
       </Routes>
     </Router>
   );
