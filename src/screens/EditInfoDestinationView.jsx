@@ -4,7 +4,7 @@ import { NavBarVertical } from '../components/NavBarVertical';
 import axios from 'axios';
 
 export const EditInfoDestinationView = () => {
-    
+
     const navigate = useNavigate();
     const location = useLocation();
     let destinationObj = location.state.destinationObj;
@@ -22,24 +22,65 @@ export const EditInfoDestinationView = () => {
 
     return (
         <>
-            <NavBarVertical></NavBarVertical>
-            <section className="text-gray-700 bg-white body-font min-h-screen">
-                <div className="ml-64 p-4">
-                    <div className="lg:w-4/5 mt-28 ml-28 flex flex-wrap shadow-md border border-gray-800 border-x-2 border-y-2 hover:shadow-xl rounded-lg">
-                        <img alt="ecommerce" className="lg:w-1/2 w-full object-cover object-center rounded" src={destinationObj.image} />
-                        <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-                            <input type="text" className="text-sm title-font text-black tracking-widest font-semibold w-full" value={destinationObj.code}></input>
-                            <input type="text" className="text-black text-3xl title-font font-medium mb-1 w-full" value={destinationObj.name}></input>
-                            <textarea className="text-gray-700 mb-1" value={destinationObj.description}></textarea>
-                            <div className="flex flex-col mb-4">
-                                <span className="ltext-gray-700 font-semibold">Estado:</span> <input type="text" className="text-gray-700 mb-1" value={destinationObj.state}></input>
+            <NavBarVertical />
+            <section className="bg-gray-100 min-h-screen flex items-center justify-center ml-64">
+                <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow-md mt-20">
+                    <form className="flex flex-col lg:flex-row items-center">
+                        <img
+                            alt="Plan"
+                            className="lg:w-1/3 w-full object-cover object-center rounded-lg shadow-md"
+                            src={destinationObj.image || 'https://via.placeholder.com/300'}
+                        />
+                        <div className="lg:w-2/3 w-full lg:pl-10 mt-6 lg:mt-0">
+                            <div className="mb-4">
+                                <label className="text-gray-700 font-semibold">ID:</label>
+                                <input
+                                    type="text"
+                                    className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
+                                    value={destinationObj.code}
+                                />
                             </div>
-                            <div className="flex">
-                                <button className="flex mx-10 text-white bg-custom-orange border-0 py-2 px-6 focus:outline-none hover:bg-hover-orange rounded">Guardar</button>
-                                <button className="rounded w-20 h-10 bg-red-700 hover:bg-red-500 hover:text-white p-0 border-0 inline-flex items-center justify-center text-white font-semibold ml-4 transition duration-300" onClick={() => navigate('/InfoDestinationView', { state: { destinationObj: destinationObj } })}>Cancelar</button>
+                            <div className="mb-4">
+                                <label className="text-gray-700 font-semibold">Correo:</label>
+                                <input
+                                    type="text"
+                                    className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
+                                    value={destinationObj.name}
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="text-gray-700 font-semibold">Número Teléfonico:</label>
+                                <textarea
+                                    type="text"
+                                    className="text-black title-font font-medium mb-1 w-full h-36 border border-gray-300 rounded-md p-2 resize-none overflow-y-auto"
+                                    value={destinationObj.description}
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="text-gray-700 font-semibold">Genero:</label>
+                                <input
+                                    type="text"
+                                    className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
+                                    value={destinationObj.state}
+                                />
+                            </div>
+                            <div className="flex space-x-4 mt-4">
+                                <button
+                                    type="submit"
+                                    className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300"
+                                >
+                                    Guardar
+                                </button>
+                                <button
+                                    type="button"
+                                    className="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300"
+                                    onClick={() => navigate('/InfoDestinationView', { state: { destinationObj: destinationObj } })}
+                                >
+                                    Cancelar
+                                </button>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </section>
         </>

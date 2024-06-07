@@ -1,6 +1,6 @@
-import React from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { NavBarVertical } from '../components/NavBarVertical';
+import { FaTrash } from 'react-icons/fa';
 
 export const InfoViewerView = () => {
     
@@ -17,28 +17,35 @@ export const InfoViewerView = () => {
     return (
         <>
             <NavBarVertical />
-            <section className="text-gray-700 bg-white body-font min-h-screen">
-                <div className="ml-64 p-4">
-                    <div className="lg:w-4/5 mt-28 ml-28 flex flex-wrap shadow-md border border-gray-800 border-x-2 border-y-2 hover:shadow-xl rounded-lg">
-                        <img alt="ecommerce" className="lg:w-1/2 w-full object-cover object-center rounded" />
-                        <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-                            <h2 className="text-sm title-font text-gray-500 tracking-widest font-semibold">{viewerObj.role}</h2>
-                            <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{viewerObj.first_name} {viewerObj.last_name}</h1>
-                            <p className="leading-relaxed mb-4">{viewerObj.login}</p>
-                            <div className="flex flex-col mb-4">
-                                <p className="ltext-gray-700 mb-2"><span className="font-semibold">Numero:</span> {viewerObj.num_id}</p>
-                                <p className="ltext-gray-700 mb-2"><span className="font-semibold">Estado:</span> {viewerObj.state}</p>
+            <section className="bg-gray-100 min-h-screen flex items-center justify-center ml-64">
+                <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow-md mt-20">
+                    <div className="flex flex-col lg:flex-row items-center">
+                        <img 
+                            alt="Plan" 
+                            className="lg:w-1/3 w-full object-cover object-center rounded-lg shadow-md" 
+                            src={viewerObj.image || 'https://via.placeholder.com/300'} 
+                        />
+                        <div className="lg:w-2/3 w-full lg:pl-10 mt-6 lg:mt-0">
+                            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-widest">{viewerObj.role}</h2>
+                            <h1 className="text-gray-900 text-3xl font-bold mb-2">{viewerObj.first_name} {viewerObj.last_name}</h1>
+                            <p className="text-gray-700 mb-4">{viewerObj.login}</p>
+                            <div className="mb-4">
+                                <p className="text-gray-700 mb-1"><span className="font-semibold">Numero:</span> {viewerObj.num_id}</p>
+                                <p className="text-gray-700 mb-1"><span className="font-semibold">Estado:</span> {viewerObj.state}</p>
                             </div>
-                            <div className="flex">
-                            <button 
-                                    className="font-semibold text-white bg-custom-orange border-0 py-2 px-6 focus:outline-none hover:bg-hover-orange rounded transition duration-300" 
+                            <div className="flex items-center space-x-4 mt-4">
+                                <button 
+                                    className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300" 
                                     onClick={() => navigate('/EditInfoViewerView', { state: { viewerObj: viewerObj } })}
                                 >
                                     Editar Viewer
                                 </button>
-                                <Link to='/ViewerView' className='rounded w-20 h-10 bg-red-700 hover:bg-red-500 hover:text-white p-0 border-0 inline-flex items-center justify-center text-white font-semibold ml-4 transition duration-300'>
+                                <Link to='/ViewerView' className='bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300'>
                                     Regresar
                                 </Link>
+                                <button className='bg-red-500 p-3 rounded-full hover:bg-red-600 transition duration-300'>
+                                    <FaTrash className="text-white" />
+                                </button>
                             </div>
                         </div>
                     </div>

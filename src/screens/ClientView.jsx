@@ -34,10 +34,6 @@ export const ClientView = () => {
         });
     };
 
-    const truncateDescription = (description, maxLength) => {
-        if (description.length <= maxLength) return description;
-        return description.substring(0, maxLength) + '...';
-    };
 
     useEffect(() => {
         const filtered = clients.filter((item) => {

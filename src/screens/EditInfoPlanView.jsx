@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { NavBarVertical } from '../components/NavBarVertical';
 import updatePlan from '../service/updatePlan';
+
 export const EditInfoPlanView = () => {
     const location = useLocation();
-    let planObj = location.state.planObj;
+    let planObj = location.state?.planObj;
     const [plan, setPlan] = useState(planObj || {});
     const navigate = useNavigate();
     const [namePlan, setNamePlan] = useState(plan.name);
@@ -16,16 +17,11 @@ export const EditInfoPlanView = () => {
     const [statePlan, setStatePlan] = useState(plan.state);
     const [imagePlan, setImagePlan] = useState(plan.image);
     const [code, setCode] = useState(plan.code);
-    
-   
-
-    
-
 
     const handleForm = async (e) => {
         e.preventDefault();
     
-        const plan = {
+        const updatedPlan = {
             id_plan: planObj.id_plan,
             code: code,
             name: namePlan,
@@ -39,18 +35,13 @@ export const EditInfoPlanView = () => {
             user: planObj.user
         };
         try {
-            const response = await updatePlan(plan);
+            const response = await updatePlan(updatedPlan);
             console.log("Plan actualizado con éxito:", response);
-            navigate('/PlanView')
-             // Usa navigate en lugar de Navigat e
+            alert("Cambios guardados correctamente!");
+            navigate('/InfoPlanView', { state: { planObj: updatedPlan } });
         } catch (error) {
-            console.error("Error al crear al actualizar plan:", error);
+            console.error("Error al actualizar plan:", error);
         }
-    };
-
-    const formatDate = (dateString) => {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
     };
 
     if (!planObj) {
@@ -59,88 +50,106 @@ export const EditInfoPlanView = () => {
 
     return (
         <>
-            <NavBarVertical></NavBarVertical>
-            <section className="text-gray-700 bg-white body-font min-h-screen">
-                <div className="ml-64 p-4">
-                    <form onSubmit={handleForm} className="lg:w-4/5 mt-28 ml-28 flex flex-wrap shadow-md border border-gray-800 border-x-2 border-y-2 hover:shadow-xl rounded-lg">
-                        <img alt="ecommerce" className="lg:w-1/2 w-full object-cover object-center rounded" src={plan.image} />
-                        <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-                        <span className="text-gray-700 font-semibold">Codigo:</span>
-                            <input
-                                type="text"
-                                name="code"
-                                className="text-sm title-font text-black tracking-widest font-semibold w-full"
-                                value={code}
-                                onChange={(e) => setCode(e.target.value)}
-                            />
-                            <span className="text-gray-700 font-semibold">Titulo:</span>
-                            <input
-                                type="text"
-                                name="name"
-                                className="text-black text-3xl title-font font-medium mb-1 w-full"
-                                value={namePlan}
-                                onChange={(e) => setNamePlan(e.target.value)}
-                            />
-                            <span className="text-gray-700 font-semibold">Descripcion:</span>
-                              <input
-                                type="text"
-                                name="description"
-                                className="text-sm title-font text-black tracking-widest font-semibold w-full"
-                                value={descriptionPlan}
-                                onChange={(e) => setDescriptionPlan(e.target.value)}
-                            />
-                            <div className="flex flex-col mb-4">
-                                <span className="text-gray-700 font-semibold">Número de personas:</span>
+            <NavBarVertical />
+            <section className="bg-gray-100 min-h-screen flex items-center justify-center ml-64">
+                <div className="w-full max-w-4xl p-6 bg-white rounded-lg shadow-md mt-20">
+                    <form onSubmit={handleForm} className="flex flex-col lg:flex-row items-center">
+                        <img 
+                            alt="Plan" 
+                            className="lg:w-1/3 w-full object-cover object-center rounded-lg shadow-md" 
+                            src={plan.image || 'https://via.placeholder.com/300'} 
+                        />
+                        <div className="lg:w-2/3 w-full lg:pl-10 mt-6 lg:mt-0">
+                            <div className="mb-4">
+                                <label className="text-gray-700 font-semibold">Código:</label>
+                                <input
+                                    type="text"
+                                    name="code"
+                                    className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
+                                    value={code}
+                                    onChange={(e) => setCode(e.target.value)}
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="text-gray-700 font-semibold">Título:</label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
+                                    value={namePlan}
+                                    onChange={(e) => setNamePlan(e.target.value)}
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="text-gray-700 font-semibold">Descripción:</label>
+                                <input
+                                    type="text"
+                                    name="description"
+                                    className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
+                                    value={descriptionPlan}
+                                    onChange={(e) => setDescriptionPlan(e.target.value)}
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label className="text-gray-700 font-semibold">Número de personas:</label>
                                 <input
                                     type="text"
                                     name="num_people"
-                                    className="text-gray-700 mb-1"
+                                    className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
                                     value={numPeoplePlan}
-                                onChange={(e) => setNumPeoplePlan(e.target.value)}
+                                    onChange={(e) => setNumPeoplePlan(e.target.value)}
                                 />
-                                <span className="text-gray-700 font-semibold">Fecha de inicio:</span>
+                            </div>
+                            <div className="mb-4">
+                                <label className="text-gray-700 font-semibold">Fecha de inicio:</label>
                                 <input
                                     type="date"
                                     name="start_Date"
-                                    className="text-gray-700 mb-1"
+                                    className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
                                     value={startDatePlan}
                                     onChange={(e) => setStartDatePlan(e.target.value)}
                                 />
-                                <span className="text-gray-700 font-semibold">Fecha de finalización:</span>
+                            </div>
+                            <div className="mb-4">
+                                <label className="text-gray-700 font-semibold">Fecha de finalización:</label>
                                 <input
                                     type="date"
                                     name="end_Date"
-                                    className="text-gray-700 mb-1"
+                                    className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
                                     value={endDatePlan}
                                     onChange={(e) => setEndDatePlan(e.target.value)}
                                 />
-                                <span className="text-gray-700 font-semibold">Estado:</span>
+                            </div>
+                            <div className="mb-4">
+                                <label className="text-gray-700 font-semibold">Estado:</label>
                                 <input
                                     type="text"
                                     name="state"
-                                    className="text-gray-700 mb-1"
+                                    className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
                                     value={statePlan}
                                     onChange={(e) => setStatePlan(e.target.value)}
                                 />
-                                <span className="text-gray-700 font-semibold">Precio:</span>
+                            </div>
+                            <div className="mb-4">
+                                <label className="text-gray-700 font-semibold">Precio:</label>
                                 <input
                                     type="text"
                                     name="price"
-                                    className="text-gray-700 mb-1"
+                                    className="text-black title-font font-medium mb-1 w-full border border-gray-300 rounded-md p-2"
                                     value={pricePlan}
                                     onChange={(e) => setPricePlan(e.target.value)}
                                 />
                             </div>
-                            <div className="flex">
+                            <div className="flex space-x-4 mt-4">
                                 <button
                                     type="submit"
-                                    className="flex mx-10 text-white bg-custom-orange border-0 py-2 px-6 focus:outline-none hover:bg-hover-orange rounded"
+                                    className="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300"
                                 >
                                     Guardar
                                 </button>
                                 <button
                                     type="button"
-                                    className="rounded w-20 h-10 bg-red-700 hover:bg-red-500 hover:text-white p-0 border-0 inline-flex items-center justify-center text-white font-semibold ml-4 transition duration-300"
+                                    className="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300"
                                     onClick={() => navigate('/InfoPlanView', { state: { planObj: planObj } })}
                                 >
                                     Cancelar
@@ -153,3 +162,5 @@ export const EditInfoPlanView = () => {
         </>
     );
 };
+
+export default EditInfoPlanView;

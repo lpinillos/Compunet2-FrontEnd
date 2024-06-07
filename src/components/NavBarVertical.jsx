@@ -72,7 +72,7 @@ export const NavBarVertical = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link to='/Reservas' className='font-semibold text-lg text-white flex items-center hover:bg-hover-orange py-3 pl-6'>
+                        <Link to='/ReportView' className='font-semibold text-lg text-white flex items-center hover:bg-hover-orange py-3 pl-6'>
                             <FaBook className='mr-3' />
                             Reservas y ventas
                         </Link>
