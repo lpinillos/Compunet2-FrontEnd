@@ -7,6 +7,7 @@ export default async function createPlan(plan) {
         const response = await axios.post(CREATE_PLAN_URL, plan);
         return response.data;
     } catch (error) {
+        console.log(plan);
         console.error('Error al crear el plan:', error);
         throw error;
     }
