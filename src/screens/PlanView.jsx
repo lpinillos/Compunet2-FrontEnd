@@ -27,7 +27,9 @@ export const PlanView = () => {
         axios.get('http://localhost:9091/api/v1/plans/getPlan', {
             params: { word }
         }).then(response => {
-            setPlans(response.data);
+            // Filtrar solo los planes que tienen estado "Activo"
+            const activePlans = response.data.filter(plan => plan.state === 'ACTIVO');
+            setPlans(activePlans);
         }).catch(error => {
             console.error("Existe un error al obtener los planes", error);
         });

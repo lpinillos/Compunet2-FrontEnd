@@ -4,13 +4,11 @@ import { NavBarVertical } from '../components/NavBarVertical';
 import axios from 'axios';
 
 export const AgentView = () => {
-
     const navigate = useNavigate();
     const [users, setUsers] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
-    const [titulo, setTitulo] = useState("");
-    const [filterData, setFilterData] = useState("");
-    const [busqueda, setBusqueda] = useState("");
+    const [filterData, setFilterData] = useState([]);
+    const [busqueda, setBusqueda] = useState('');
 
     const handleInputChange = (event) => {
         setSearchTerm(event.target.value);
@@ -26,29 +24,28 @@ export const AgentView = () => {
     }, []);
 
     const fetchUsers = (word = '') => {
-        axios.get('http://localhost:9091/api/v1/user/getUser', {
-            params: { word }
-        }).then(response => {
-            const agentes = response.data.filter(user => user.role === 'AGENTE');
-            setUsers(agentes);
-        }).catch(error => {
-            console.error("Existe un error al obtener los agentes", error);
-        });
+        axios
+            .get('http://localhost:9091/api/v1/user/getUser', { params: { word } })
+            .then((response) => {
+                // Filtrar solo los agentes con estado activo
+                const agentes = response.data.filter(
+                    (user) => user.role === 'AGENTE' && user.state === 'true'
+                );
+                setUsers(agentes);
+                setFilterData(agentes); // Actualizar también los datos filtrados
+            })
+            .catch((error) => {
+                console.error('Existe un error al obtener los agentes', error);
+            });
     };
 
-    const truncateDescription = (description, maxLength) => {
-        if (description.length <= maxLength) return description;
-        return description.substring(0, maxLength) + '...';
-    };
-
-    useEffect(() => {
-        const filtered = users.filter((item) => {
-            const titleMatch = item.login.toLowerCase().includes(busqueda.toLowerCase());
-            return titleMatch;
-        });
-
+    const handleSearch = (event) => {
+        setBusqueda(event.target.value);
+        const filtered = users.filter((item) =>
+            item.login.toLowerCase().includes(event.target.value.toLowerCase())
+        );
         setFilterData(filtered);
-    }, [busqueda, users]);
+    };
 
     return (
         <>
@@ -62,19 +59,22 @@ export const AgentView = () => {
                                 name="word"
                                 className="form-control border border-gray-300 w-full rounded-md py-2 px-4"
                                 id="word"
-                                value={busqueda} onChange={e => setBusqueda(e.target.value)}
+                                value={busqueda}
+                                onChange={handleSearch}
                                 placeholder="Digite el valor a buscar..."
                                 required
                             />
                         </div>
                     </form>
-                    <Link to='/CreatePlan'>
-                        <button className='bg-custom-orange hover:bg-hover-orange rounded-lg w-32 h-11 font-semibold text-white mr-5 ml-5 mb-2'>Crear Agente</button>
+                    <Link to="/CreatePlan">
+                        <button className="bg-custom-orange hover:bg-hover-orange rounded-lg w-32 h-11 font-semibold text-white mr-5 ml-5 mb-2">
+                            Crear Agente
+                        </button>
                     </Link>
                 </div>
                 <div className="flex flex-wrap justify-center mt-5">
-                    {Array.isArray(users) && users.length > 0 ? (
-                        filterData.map(user => (
+                    {Array.isArray(filterData) && filterData.length > 0 ? (
+                        filterData.map((user) => (
                             <div key={user.id_user} className="lg:w-1/4 md:w-1/2 p-4 w-full">
                                 <div
                                     className="rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300 cursor-pointer"
@@ -82,7 +82,7 @@ export const AgentView = () => {
                                     onClick={() => navigate('/InfoAgentView', { state: { agentObj: user } })}
                                 >
                                     <div className="relative h-48 w-full">
-                                        <img alt={user.id_user} className="object-cover object-center w-full h-full"/>
+                                        <img alt={user.id_user} className="object-cover object-center w-full h-full" />
                                     </div>
                                     <div className="p-4 bg-white">
                                         <h3 className="text-gray-600 font-semibold text-sm mb-1">Agente</h3>

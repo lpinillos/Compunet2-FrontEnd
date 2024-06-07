@@ -27,7 +27,8 @@ const ViewDestino = () => {
         axios.get('http://localhost:9091/api/v1/destinations/getDestination', {
             params: { word }
         }).then(response => {
-            setDestinations(response.data);
+            const activeDestinations = response.data.filter(destination => destination.state === 'Active');
+            setDestinations(activeDestinations);
         }).catch(error => {
             console.error("Existe un error al obtener los destinos", error);
         });
@@ -70,7 +71,7 @@ const ViewDestino = () => {
                     </Link>
                 </div>
                 <div className="flex flex-wrap justify-center mt-5">
-                    {Array.isArray(destinations) && destinations.length > 0 ? (
+                    {Array.isArray(filterData) && filterData.length > 0 ? (
                         filterData.map(destination => (
                             <div key={destination.id_destination} className="lg:w-1/4 md:w-1/2 p-4 w-full">
                                 <div

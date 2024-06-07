@@ -1,18 +1,28 @@
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { NavBarVertical } from '../components/NavBarVertical';
 import { FaTrash } from 'react-icons/fa';
+import axios from 'axios';
 
 export const InfoViewerView = () => {
-    
     const navigate = useNavigate();
     const location = useLocation();
-    let viewerObj = location.state.viewerObj;
-
-    console.log(viewerObj);
+    const viewerObj = location.state.viewerObj;
 
     if (!viewerObj) {
         return <p>Cargando...</p>;
     }
+
+    const handleDelete = async () => {
+        if (window.confirm("¿Estás seguro de que deseas eliminar este viewer?")) {
+            try {
+                await axios.delete(`http://localhost:9091/api/v1/user/delete/${viewerObj.id_user}`);
+                navigate('/ViewerView');
+            } catch (error) {
+                console.error("Error deleting viewer:", error);
+                alert("Hubo un error al eliminar el viewer. Inténtalo de nuevo.");
+            }
+        }
+    };
 
     return (
         <>
@@ -43,7 +53,10 @@ export const InfoViewerView = () => {
                                 <Link to='/ViewerView' className='bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300'>
                                     Regresar
                                 </Link>
-                                <button className='bg-red-500 p-3 rounded-full hover:bg-red-600 transition duration-300'>
+                                <button 
+                                    className='bg-red-500 p-3 rounded-full hover:bg-red-600 transition duration-300'
+                                    onClick={handleDelete}
+                                >
                                     <FaTrash className="text-white" />
                                 </button>
                             </div>
@@ -54,3 +67,5 @@ export const InfoViewerView = () => {
         </>
     );
 };
+
+export default InfoViewerView;

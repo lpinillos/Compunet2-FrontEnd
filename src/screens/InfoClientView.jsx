@@ -1,15 +1,13 @@
-import React from 'react'
+import React from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { NavBarVertical } from '../components/NavBarVertical';
 import { FaTrash } from 'react-icons/fa';
+import axios from 'axios';
 
 export const InfoClientView = () => {
-
     const navigate = useNavigate();
     const location = useLocation();
-    let clientObj = location.state?.clientObj;
-
-    console.log(clientObj);
+    const clientObj = location.state?.clientObj;
 
     if (!clientObj) {
         return <p>Cargando...</p>;
@@ -18,6 +16,18 @@ export const InfoClientView = () => {
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+
+    const handleDelete = async () => {
+        if (window.confirm("¿Estás seguro de que deseas eliminar este cliente?")) {
+            try {
+                await axios.delete(`http://localhost:9091/api/v1/clients/delete/${clientObj.id_client}`);
+                navigate('/ClientView');
+            } catch (error) {
+                console.error("Error deleting client:", error);
+                alert("Hubo un error al eliminar el cliente. Inténtalo de nuevo.");
+            }
+        }
     };
 
     return (
@@ -51,7 +61,10 @@ export const InfoClientView = () => {
                                 <Link to='/ClientView' className='bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300'>
                                     Regresar
                                 </Link>
-                                <button className='bg-red-500 p-3 rounded-full hover:bg-red-600 transition duration-300'>
+                                <button 
+                                    className='bg-red-500 p-3 rounded-full hover:bg-red-600 transition duration-300'
+                                    onClick={handleDelete}
+                                >
                                     <FaTrash className="text-white" />
                                 </button>
                             </div>

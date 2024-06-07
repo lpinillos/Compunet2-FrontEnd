@@ -1,7 +1,8 @@
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { NavBarVertical } from '../components/NavBarVertical';
 import { FaTrash } from 'react-icons/fa';
-
+import axios from 'axios';
+import deleteDestination from '../service/deleteDestino'
 export const InfoDestinationView = () => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -14,6 +15,19 @@ export const InfoDestinationView = () => {
     const formatDate = (dateString) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+
+
+    const handleDelete = async () => {
+        if (window.confirm("¿Estás seguro de que deseas eliminar este destino?")) {
+            try {
+                await deleteDestination(destinationObj.id_destination);
+                navigate('/DestinoView');
+            } catch (error) {
+                console.error("Error deleting destination:", error);
+                alert("Hubo un error al eliminar el destino. Inténtalo de nuevo.");
+            }
+        }
     };
 
     return (
@@ -44,7 +58,10 @@ export const InfoDestinationView = () => {
                                 <Link to='/DestinoView' className='bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300'>
                                     Regresar
                                 </Link>
-                                <button className='bg-red-500 p-3 rounded-full hover:bg-red-600 transition duration-300'>
+                                <button 
+                                    className='bg-red-500 p-3 rounded-full hover:bg-red-600 transition duration-300'
+                                    onClick={handleDelete}
+                                >
                                     <FaTrash className="text-white" />
                                 </button>
                             </div>

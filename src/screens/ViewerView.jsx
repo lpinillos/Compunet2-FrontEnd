@@ -29,7 +29,7 @@ export const ViewerView = () => {
         axios.get('http://localhost:9091/api/v1/user/getUser', {
             params: { word }
         }).then(response => {
-            const viewers = response.data.filter(user => user.role === 'VIEWER');
+            const viewers = response.data.filter(user => user.role === 'VIEWER' && user.state === 'true');
             setUsers(viewers);
         }).catch(error => {
             console.error("Existe un error al obtener los viewers", error);

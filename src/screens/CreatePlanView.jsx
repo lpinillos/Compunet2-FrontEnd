@@ -112,6 +112,7 @@ export const CreatePlanView = () => {
             // Crear cada detalle del plan
             for (const detail of planDetails) {
                 const detailId = generateRandomId();
+                console.log()
                 const detailData = {
                     id_planDetail: detailId,
                     nutrition: detail.nutrition,
@@ -123,6 +124,7 @@ export const CreatePlanView = () => {
                     state: detail.state,
                     destination: parseInt(detail.destination)
                 };
+                console.log(detailData)
                 const response2 = await createPlanDetail(detailData);
                 console.log("Detalle de plan creado:", response2);
                 

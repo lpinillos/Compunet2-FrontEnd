@@ -1,11 +1,12 @@
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { NavBarVertical } from '../components/NavBarVertical';
 import { FaTrash } from 'react-icons/fa';
-
+import axios from 'axios';
+import deletePlan from '../service/deletePlan';
 export const InfoPlanView = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    let planObj = location.state?.planObj;
+    const planObj = location.state?.planObj;
 
     if (!planObj) {
         return <p>Cargando...</p>;
@@ -15,6 +16,20 @@ export const InfoPlanView = () => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(dateString).toLocaleDateString(undefined, options);
     };
+
+    const handleDelete = async () => {
+        if (window.confirm("¿Estás seguro de que deseas eliminar este plan?")) {
+            try {
+                await deletePlan(planObj.id_plan); // Llama a la función para eliminar el plan
+                navigate('/PlanView');
+            } catch (error) {
+                console.error("Error al eliminar el plan:", error);
+                alert("Hubo un error al eliminar el plan. Inténtalo de nuevo.");
+            }
+        }
+    };
+
+   
 
     return (
         <>
@@ -48,7 +63,10 @@ export const InfoPlanView = () => {
                                 <Link to='/PlanView' className='bg-red-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-red-600 transition duration-300'>
                                     Regresar
                                 </Link>
-                                <button className='bg-red-500 p-3 rounded-full hover:bg-red-600 transition duration-300'>
+                                <button 
+                                    className='bg-red-500 p-3 rounded-full hover:bg-red-600 transition duration-300'
+                                    onClick={handleDelete}
+                                >
                                     <FaTrash className="text-white" />
                                 </button>
                             </div>
@@ -61,4 +79,3 @@ export const InfoPlanView = () => {
 };
 
 export default InfoPlanView;
-    
