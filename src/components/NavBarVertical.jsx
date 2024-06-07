@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { FaMapMarkedAlt, FaPlane, FaUserFriends, FaUsers, FaUserTie, FaBook, FaSignOutAlt } from 'react-icons/fa';
+import { FaSquarePollVertical } from 'react-icons/fa6';
 import axios from 'axios';
 
 export const NavBarVertical = () => {
@@ -72,9 +73,15 @@ export const NavBarVertical = () => {
                         </Link>
                     </li>
                     <li>
-                        <Link to='/ReportView' className='font-semibold text-lg text-white flex items-center hover:bg-hover-orange py-3 pl-6'>
+                        <Link to='/ReportsView' className='font-semibold text-lg text-white flex items-center hover:bg-hover-orange py-3 pl-6'>
                             <FaBook className='mr-3' />
                             Reservas y ventas
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to='/ReportsView' className='font-semibold text-lg text-white flex items-center hover:bg-hover-orange py-3 pl-6'>
+                            <FaSquarePollVertical className='mr-3' />
+                            Reportes
                         </Link>
                     </li>
                 </ul>
