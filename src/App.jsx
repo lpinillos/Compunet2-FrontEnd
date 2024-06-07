@@ -17,6 +17,8 @@ import { AgentView } from './screens/AgentView';
 import { InfoAgentView } from './screens/InfoAgentView';
 import { EditInfoAgentView } from './screens/EditInfoAgentView';
 import ViewDestino from './screens/ViewDestino';
+import { InfoDestinationView }  from './screens/InfoDestinationView';
+import { EditInfoDestinationView }  from './screens/EditInfoDestinationView';
 import CatalogoDestinoView from './screens/CatalogoDestinoView';
 
 function App() {
@@ -42,6 +44,8 @@ function App() {
         <Route path='/InfoAgentView' element={<InfoAgentView />} />
         <Route path='/EditInfoAgentView' element={<EditInfoAgentView />} />
         <Route path='/DestinoView' element={<ViewDestino/>}/>
+        <Route path='/InfoDestinationView' element={<InfoDestinationView/>}/>
+        <Route path='/EditInfoDestinationView' element={<EditInfoDestinationView/>}/>
         <Route path='/CatalogoDestino' element={<CatalogoDestinoView/>}/>
       </Routes>
     </Router>
