@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import './index.css';
 import { LoginPage } from './screens/LoginPage';
 import { Register } from './screens/Register';
+import { CreateDestino } from './screens/CreateDestino';
 import { PlanView } from './screens/PlanView';
 import { InfoPlanView } from './screens/InfoPlanView';
 import { EditInfoPlanView } from './screens/EditInfoPlanView';
@@ -30,6 +31,7 @@ function App() {
         <Route path="/InfoPlanView" element={<InfoPlanView />} />
         <Route path="/EditInfoPlanView" element={<EditInfoPlanView />} />
         <Route path='/CreatePlan' element={<CreatePlanView />}/>
+        <Route path='/CreateDestino' element={<CreateDestino />}/>
         <Route path='/ClientView' element={<ClientView />} />
         <Route path='/InfoClientView' element={<InfoClientView />} />
         <Route path='/EditInfoClientView' element={<EditInfoClientView />} />

@@ -14,4 +14,4 @@ const CatalogoDestinoView = () => {
     )
 }
 
-export default CatalogoDestinoView
+export default CatalogoDestinoView;
