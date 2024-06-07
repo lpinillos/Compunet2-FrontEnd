@@ -29,7 +29,7 @@ export const ViewerView = () => {
         axios.get('http://localhost:9091/api/v1/user/getUser', {
             params: { word }
         }).then(response => {
-            const viewers = response.data.filter(user => user.role === 'VIEWER' && user.state === 'true');
+            const viewers = response.data.filter(user => user.role === 'VIEWER' && user.state === 'ACTIVO');
             setUsers(viewers);
         }).catch(error => {
             console.error("Existe un error al obtener los viewers", error);
@@ -68,7 +68,7 @@ export const ViewerView = () => {
                             />
                         </div>
                     </form>
-                    <Link to='/CreatePlan'>
+                    <Link to='/CreateViewer'>
                         <button className='bg-custom-orange hover:bg-hover-orange rounded-lg w-32 h-11 font-semibold text-white mr-5 ml-5 mb-2'>Crear Viewer</button>
                     </Link>
                 </div>

@@ -16,7 +16,9 @@ import { EditInfoViewerView } from './screens/EditInfoViewerView';
 import { AgentView } from './screens/AgentView';
 import { InfoAgentView } from './screens/InfoAgentView';
 import { EditInfoAgentView } from './screens/EditInfoAgentView';
+import { CreateClient } from './screens/CreateClient';
 import ViewDestino from './screens/ViewDestino';
+import { CreateViewer } from './screens/CreateViewer';
 import { InfoDestinationView }  from './screens/InfoDestinationView';
 import { EditInfoDestinationView }  from './screens/EditInfoDestinationView';
 import CatalogoDestinoView from './screens/CatalogoDestinoView';
@@ -30,6 +32,8 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/Register" element={<Register />} />
+        <Route path="/CreateViewer" element={<CreateViewer />} />
+        <Route path="/CreateClient" element={<CreateClient />} />
         <Route path='/PlanView' element={<PlanView />} />
         <Route path="/InfoPlanView" element={<InfoPlanView />} />
         <Route path="/EditInfoPlanView" element={<EditInfoPlanView />} />

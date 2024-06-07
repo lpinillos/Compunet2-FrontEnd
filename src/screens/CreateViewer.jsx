@@ -1,18 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { NavBarVertical } from '../components/NavBarVertical';
 import { Link, useNavigate } from 'react-router-dom';
+import createViewer from '../service/createViewer';
 import uploadImageCloudinary from '../service/LoadImage';
-import createDestination from '../service/createDestino';
-import axios from 'axios';
 
-export const CreateDestino = () => {
-    const [code, setCode] = useState("");
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
-    const [state, setState] = useState("");
+export const CreateViewer = () => {
+    const [login, setLogin] = useState("");
+    const [password, setPassword] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [role, setRole] = useState("VIEWER");
+    const [numId, setNumId] = useState("");
+    const [state, setState] = useState("ACTIVO");
     const [image, setImage] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
-    const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
     const handleFileChange = (event) => {
@@ -23,44 +24,30 @@ export const CreateDestino = () => {
         reader.readAsDataURL(file);
     };
 
-    const userId = localStorage.getItem('email');
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const response = await axios.get(`http://localhost:9091/api/v1/user/getUsuario/${userId}`);
-                setUser(response.data);
-            } catch (error) {
-                console.error("Error fetching user:", error);
-            }
-        };
-
-        fetchUser();
-    }, [userId]);
-
-    const generateRandomId = () => Math.floor(Math.random() * 100000000);
-
     const handleForm = async (e) => {
+        e.preventDefault();
         e.preventDefault();
         let imageUrl = '';
         if (image) {
             const [status, imageResponse] = await uploadImageCloudinary(image);
             imageUrl = imageResponse.secure_url;
         }
-        const destination = {
-            id_destination: generateRandomId(),
-            code: code,
-            name: name,
-            description: description,
-            state: "Active",
+        const viewer = {
+            login : login,
+            password: password,
+            first_name: firstName,
+            last_name: lastName,
+            role: role,
+            num_id: numId,
+            state: state,
             image: imageUrl
         };
         try {
-            const response = await createDestination(destination);
-            console.log("Destino creado con éxito:", response);
-            navigate('/DestinoView');
+            const response = await createViewer(viewer);
+            console.log("Viewer creado con éxito:", response);
+            navigate('/ViewerView');
         } catch (error) {
-            console.error("Error al crear el destino:", error);
+            console.error("Error al crear el viewer:", error);
         }
     };
 
@@ -93,40 +80,62 @@ export const CreateDestino = () => {
                         <div className="mt-6">
                             <input
                                 type="text"
-                                placeholder="Ingrese el código del destino"
+                                placeholder="Ingrese el correo del viewer"
                                 className="w-full border border-gray-300 rounded-md p-2 mb-4"
-                                value={code}
-                                onChange={(e) => setCode(e.target.value)}
+                                value={login}
+                                onChange={(e) => setLogin(e.target.value)}
+                            />
+                            <input
+                                type="password"
+                                placeholder="Ingrese la contraseña"
+                                className="w-full border border-gray-300 rounded-md p-2 mb-4"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                             />
                             <input
                                 type="text"
-                                placeholder="Ingrese el nombre del destino"
+                                placeholder="Ingrese el nombre"
                                 className="w-full border border-gray-300 rounded-md p-2 mb-4"
-                                value={name}
-                                onChange={(e) => setName(e.target.value)}
-                            />
-                            <textarea
-                                placeholder="Descripción del destino"
-                                className="w-full border border-gray-300 rounded-md p-2 mb-4 h-32 resize-none overflow-y-auto"
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
+                                value={firstName}
+                                onChange={(e) => setFirstName(e.target.value)}
                             />
                             <input
                                 type="text"
-                                placeholder="Estado del destino"
+                                placeholder="Ingrese el apellido"
+                                className="w-full border border-gray-300 rounded-md p-2 mb-4"
+                                value={lastName}
+                                onChange={(e) => setLastName(e.target.value)}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Ingrese el rol"
+                                className="w-full border border-gray-300 rounded-md p-2 mb-4"
+                                value={role}
+                            
+                            />
+                            <input
+                                type="text"
+                                placeholder="Ingrese el número de identificación"
+                                className="w-full border border-gray-300 rounded-md p-2 mb-4"
+                                value={numId}
+                                onChange={(e) => setNumId(e.target.value)}
+                            />
+                            <input
+                                type="text"
+                                placeholder="Ingrese el estado"
                                 className="w-full border border-gray-300 rounded-md p-2 mb-4"
                                 value={state}
-                                onChange={(e) => setState(e.target.value)}
+                             
                             />
                             <div className='flex flex-row'>
-                                <Link to='/DestinoView' className='w-full bg-red-700 text-white rounded-md p-2 hover:bg-red-500 transition duration-200 font-semibold mr-2 text-center'>
+                                <Link to='/ViewerView' className='w-full bg-red-700 text-white rounded-md p-2 hover:bg-red-500 transition duration-200 font-semibold mr-2 text-center'>
                                     Regresar
                                 </Link>
                                 <button
                                     type="submit"
                                     className="w-full bg-custom-orange text-white rounded-md p-2 hover:bg-hover-orange transition duration-200 font-semibold"
                                 >
-                                    Crear Destino
+                                    Crear Viewer
                                 </button>
                             </div>
                         </div>
